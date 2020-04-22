@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-
+using GreaterSydneyLibraries.Models;
 namespace LibraryData
 {
     public class LibraryContext: DbContext
@@ -11,7 +11,7 @@ namespace LibraryData
 
         }
 
-        public DbSet<Models.Customers> Customers { get; set; }
+        public DbSet<Customers> Customers { get; set; }
 
     }
 }

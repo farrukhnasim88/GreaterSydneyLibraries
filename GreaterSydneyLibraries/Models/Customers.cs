@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace LibraryData.Models
+namespace GreaterSydneyLibraries.Models
 {
-   public class Customers
+    public class Customers
     {
 
         public int Id { get; set; }
