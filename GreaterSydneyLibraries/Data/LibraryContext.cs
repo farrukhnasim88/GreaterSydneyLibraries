@@ -12,6 +12,17 @@ namespace LibraryData
         }
 
         public DbSet<Customers> Customers { get; set; }
+        public DbSet<LibraryAsset> LibraryAssets { get; set; }
+        public DbSet<BranchHours>  BranchHours { get; set; }
+        public DbSet<CheckoutHistory> CheckoutHistories  { get; set; }
+        public DbSet<Checkouts> Checkouts { get; set; }
+        public DbSet<Holds> Holds { get; set; }
+        public DbSet<LibraryBranch> LibraryBranches { get; set; }
+        public DbSet<LibraryCard> LibraryCards { get; set; }
+        public DbSet<Status> Statuses { get; set; }
+        public DbSet<Video> Videos { get; set; }
+        public DbSet<Book> Books { get; set; }
+
 
     }
 }

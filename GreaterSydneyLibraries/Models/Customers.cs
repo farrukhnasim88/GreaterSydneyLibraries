@@ -13,6 +13,8 @@ namespace GreaterSydneyLibraries.Models
         public string Address { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string ContactNo { get; set; }
+        public virtual LibraryCard LibraryCard { get; set; }
+        public virtual LibraryBranch LocalBranch { get; set; }
 
 
 
