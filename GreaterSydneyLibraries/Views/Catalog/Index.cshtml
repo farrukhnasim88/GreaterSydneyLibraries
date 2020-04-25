@@ -1,0 +1,45 @@
+﻿ @model GreaterSydneyLibraries.Models.Catalog.AssetIndexModel
+@*@{ 
+    ViewBag.Title = "Library Catalog Index";
+}*@
+
+
+<div>
+
+    <h3>Library Catalog</h3>
+    <div>
+        <table class="table" id="catalogIndexTable">
+
+            <thead>
+                <tr>
+                    <th>Imaage</th>
+                    <th>Title</th>
+                    <th>Author/Director</th>
+                    <th>Dewey Call Number</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var asset in Model.Assets)
+                {
+                    <tr class="assetRow">
+                        <td class=""><a asp.controller="Catalog" asp-action="Detail" asp-route-id="@asset.Id"><img src="@asset.ImageUrl" class="imageCell" /></a></td>
+                        <td>@asset.Title</td>
+                        <td>@asset.AuthorOrDirector</td>
+                        <td>@asset.DeweyCallNumber</td>
+                    </tr>
+
+                }
+            </tbody>
+
+
+        </table>
+
+
+
+
+    </div>
+
+
+</div>
