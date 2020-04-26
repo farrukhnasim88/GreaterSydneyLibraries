@@ -5,6 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using GreaterSydneyLibraries.Models;
 using GreaterSydneyLibraries.Models.Catalog;
+using LibraryServices;
+using LibraryData;
+
 
 namespace GreaterSydneyLibraries.Controllers
 {
@@ -17,6 +20,11 @@ namespace GreaterSydneyLibraries.Controllers
 
         }
 
+        public IActionResult Indexes()
+        {
+            return View();
+        }
+
         public IActionResult Index()
         {
             var assetModels = _assets.GetAll();
@@ -26,17 +34,17 @@ namespace GreaterSydneyLibraries.Controllers
 
                     Id = result.Id,
                     ImageUrl = result.ImageUrl,
-                    AuthorOrDirector= _assets.GetAuthorOrDirector(result.Id),
-                    DeweyCallNumber= _assets.GetDeweyIndex(result.Id),
-                    Title= result.Title,
-                    Type= _assets.GetType(result.Id)
+                    AuthorOrDirector = _assets.GetAuthorOrDirector(result.Id),
+                    DeweyCallNumber = _assets.GetDeweyIndex(result.Id),
+                    Title = result.Title,
+                    Type = _assets.GetType(result.Id)
 
 
-                }) ;
+                });
             var model = new AssetIndexModel()
             {
 
-                Assets= listingResult
+                Assets = listingResult
             };
 
             return View(model);

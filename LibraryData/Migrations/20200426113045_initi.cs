@@ -1,22 +1,12 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace GreaterSydneyLibraries.Migrations
+namespace LibraryData.Migrations
 {
-    public partial class classesAdded : Migration
+    public partial class initi : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "LibraryCardId",
-                table: "Customers",
-                nullable: true);
-
-            migrationBuilder.AddColumn<int>(
-                name: "LocalBranchId",
-                table: "Customers",
-                nullable: true);
-
             migrationBuilder.CreateTable(
                 name: "LibraryBranches",
                 columns: table => new
@@ -80,6 +70,37 @@ namespace GreaterSydneyLibraries.Migrations
                     table.ForeignKey(
                         name: "FK_BranchHours_LibraryBranches_BranchId",
                         column: x => x.BranchId,
+                        principalTable: "LibraryBranches",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Customers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(nullable: true),
+                    DateOfBirth = table.Column<DateTime>(nullable: false),
+                    ContactNo = table.Column<string>(nullable: true),
+                    LibraryCardId = table.Column<int>(nullable: true),
+                    LocalBranchId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Customers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Customers_LibraryCards_LibraryCardId",
+                        column: x => x.LibraryCardId,
+                        principalTable: "LibraryCards",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Customers_LibraryBranches_LocalBranchId",
+                        column: x => x.LocalBranchId,
                         principalTable: "LibraryBranches",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -205,16 +226,6 @@ namespace GreaterSydneyLibraries.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Customers_LibraryCardId",
-                table: "Customers",
-                column: "LibraryCardId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Customers_LocalBranchId",
-                table: "Customers",
-                column: "LocalBranchId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_BranchHours_BranchId",
                 table: "BranchHours",
                 column: "BranchId");
@@ -240,6 +251,16 @@ namespace GreaterSydneyLibraries.Migrations
                 column: "LibraryCardId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Customers_LibraryCardId",
+                table: "Customers",
+                column: "LibraryCardId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Customers_LocalBranchId",
+                table: "Customers",
+                column: "LocalBranchId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Holds_LibraryAssetId",
                 table: "Holds",
                 column: "LibraryAssetId");
@@ -258,34 +279,10 @@ namespace GreaterSydneyLibraries.Migrations
                 name: "IX_LibraryAssets_StatusId",
                 table: "LibraryAssets",
                 column: "StatusId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Customers_LibraryCards_LibraryCardId",
-                table: "Customers",
-                column: "LibraryCardId",
-                principalTable: "LibraryCards",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Customers_LibraryBranches_LocalBranchId",
-                table: "Customers",
-                column: "LocalBranchId",
-                principalTable: "LibraryBranches",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Customers_LibraryCards_LibraryCardId",
-                table: "Customers");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Customers_LibraryBranches_LocalBranchId",
-                table: "Customers");
-
             migrationBuilder.DropTable(
                 name: "BranchHours");
 
@@ -294,6 +291,9 @@ namespace GreaterSydneyLibraries.Migrations
 
             migrationBuilder.DropTable(
                 name: "Checkouts");
+
+            migrationBuilder.DropTable(
+                name: "Customers");
 
             migrationBuilder.DropTable(
                 name: "Holds");
@@ -309,22 +309,6 @@ namespace GreaterSydneyLibraries.Migrations
 
             migrationBuilder.DropTable(
                 name: "Statuses");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Customers_LibraryCardId",
-                table: "Customers");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Customers_LocalBranchId",
-                table: "Customers");
-
-            migrationBuilder.DropColumn(
-                name: "LibraryCardId",
-                table: "Customers");
-
-            migrationBuilder.DropColumn(
-                name: "LocalBranchId",
-                table: "Customers");
         }
     }
 }
