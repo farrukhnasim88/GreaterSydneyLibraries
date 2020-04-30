@@ -9,4 +9,11 @@ namespace GreaterSydneyLibraries.Models.Catalog
     {
         public IEnumerable<AssetIndexListingModel> Assets { get; set; }
     }
+
+
+
+
+
+
+
 }
