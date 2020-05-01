@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LibraryServices
 {
+    // Inherits from Checkout Interface
     public class CheckoutService : ICheckout
     {
         private readonly LibraryContext _context;
