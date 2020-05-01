@@ -13,7 +13,7 @@ namespace GreaterSydneyLibraries.Controllers
 {
     public class CatalogController: Controller
     {
-        private ILibraryAsset _assets;
+        private readonly ILibraryAsset _assets;
         public CatalogController(ILibraryAsset assets)
         {
             _assets = assets;

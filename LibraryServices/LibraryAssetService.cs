@@ -9,7 +9,7 @@ namespace LibraryServices
 {
     public class LibraryAssetService : ILibraryAsset
     {
-        private LibraryContext _context;
+        private readonly LibraryContext _context;
 
         public LibraryAssetService(LibraryContext context)
         {
@@ -45,7 +45,11 @@ namespace LibraryServices
 
         {
 
-           return _context.LibraryAssets.FirstOrDefault(asset => asset.Id == id).Location;
+            return _context.LibraryAssets.FirstOrDefault(asset => asset.Id == id).Location;
+
+             
+           
+            
         }
 
 
