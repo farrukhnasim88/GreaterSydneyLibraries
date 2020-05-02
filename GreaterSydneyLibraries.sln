@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GreaterSydneyLibraries", "G
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryData", "LibraryData\LibraryData.csproj", "{CA98A097-1A98-4B8C-A820-C599914572C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryServices", "LibraryServices\LibraryServices.csproj", "{4E20063E-2F80-44DD-9740-47463FF3140A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryServices", "LibraryServices\LibraryServices.csproj", "{4E20063E-2F80-44DD-9740-47463FF3140A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,22 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using GreaterSydneyLibraries.Models;
 using GreaterSydneyLibraries.Models.Catalog;
-using LibraryServices;
 using LibraryData;
-
+using GreaterSydneyLibraries.Models.Checkout;
 
 namespace GreaterSydneyLibraries.Controllers
 {
     public class CatalogController: Controller
     {
         private readonly ILibraryAsset _assets;
-        public CatalogController(ILibraryAsset assets)
+        private readonly ICheckout _checkouts;
+
+        public CatalogController(ILibraryAsset assets, ICheckout checkout)
         {
             _assets = assets;
+            _checkouts= checkout;
 
         }
 
@@ -54,6 +53,12 @@ namespace GreaterSydneyLibraries.Controllers
         public IActionResult Detail(int id)
         {
             var asset = _assets.GetById(id);
+            var currentHolds = _checkouts.GetCurrentHolds(id)
+                              .Select(a => new AssetHoldModel
+                              {
+                                  HoldPlaced= _checkouts.GetCurrentHoldPlaced(a.Id).ToString("d"),
+                                  CustomerName= _checkouts.GetCurrentHoldPatronName(a.Id)
+                              });
 
             var model = new AssetDetailModel
             {
@@ -66,7 +71,13 @@ namespace GreaterSydneyLibraries.Controllers
                 AuthorOrDirector = _assets.GetAuthorOrDirector(id),
                 CurrentLocation = _assets.GetCurrentLocation(id).Name,
                 DeweyCallNumber = _assets.GetDeweyIndex(id),
-                ISBN = _assets.GetIsbn(id)
+                ISBN = _assets.GetIsbn(id),
+                CheckoutHistories = _checkouts.GetCheckoutHistory(id),
+                LatestCheckout = _checkouts.GetLatestCheckout(id),
+                CustomerName= _checkouts.GetCurrentCheckoutPatron(id),
+                CurrentHold= currentHolds
+
+            
                 
             };
             return View(model);
@@ -75,6 +86,65 @@ namespace GreaterSydneyLibraries.Controllers
         }
 
 
+        public IActionResult Checkout(int id)
+        {
+            var asset = _assets.GetById(id);
+            var model = new CheckoutModel {
+            
+            AssetId= id,
+            ImageUrl= asset.ImageUrl,
+            Title= asset.Title,
+            LibraryCardId= "",
+            IsCheckdOut= _checkouts.IsCheckedOut(id)
+            
+            
+            };
 
+            return View(model);
+        }
+
+
+        public IActionResult MarkLost(int assetId)
+        {
+            _checkouts.MarkLost(assetId);
+            return RedirectToAction("Detail", new { id = assetId });
+        }
+        public IActionResult MarkFound(int assetId)
+        {
+            _checkouts.MarkFound(assetId);
+            return RedirectToAction("Detail", new { id = assetId });
+        }
+
+        public IActionResult Hold(int id)
+        {
+            var asset = _assets.GetById(id);
+            var model = new CheckoutModel
+            {
+                AssetId = id,
+                ImageUrl = asset.ImageUrl,
+                Title = asset.Title,
+                LibraryCardId = "",
+                IsCheckdOut = _checkouts.IsCheckedOut(id),
+                HoldCount= _checkouts.GetCurrentHolds(id).Count()
+
+            };
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public IActionResult PlaceCheckout(int assetId, int libraryCardId)
+        {
+            _checkouts.CheckInItem(assetId, libraryCardId);
+            return RedirectToAction("Detail", new { id = assetId });
+        }
+
+        [HttpPost]
+        public IActionResult PlaceHold (int assetId, int libraryCardId)
+        {
+            _checkouts.PlaceHold(assetId, libraryCardId);
+            return RedirectToAction("Detail", new { id = assetId });
+        }
     }
 }

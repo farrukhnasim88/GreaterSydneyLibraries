@@ -17,6 +17,7 @@ namespace LibraryData
         string GetCurrentCheckoutPatron(int assetId);
         string GetCurrentHoldPatronName(int id);
         DateTime GetCurrentHoldPlaced(int id);
+        bool IsCheckedOut(int id);
 
         void Add(Checkouts newCheckout);
         void CheckOutItem(int assetId, int libraryCardId);
