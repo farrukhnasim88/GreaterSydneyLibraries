@@ -33,6 +33,7 @@ namespace GreaterSydneyLibraries
             services.AddSingleton(Configuration);
             services.AddScoped<ILibraryAsset, LibraryAssetService>();
             services.AddScoped<ICheckout, CheckoutService>();
+            services.AddScoped<ICustomer, CustomerService>();
 
 
 
