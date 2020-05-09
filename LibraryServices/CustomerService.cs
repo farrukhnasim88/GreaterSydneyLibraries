@@ -52,7 +52,7 @@ namespace LibraryServices
             return _context.Checkouts
                     .Include(c => c.LibraryCard)
                     .Include(c => c.LibraryAsset)
-                    .Where(c => c.LibraryCard.Id == cardId);
+                    .Where(c => c.LibraryCard.Id == cardId);   // LibraryCard is navigatoin prop
         }
 
         public IEnumerable<Holds> GetHolds(int id)

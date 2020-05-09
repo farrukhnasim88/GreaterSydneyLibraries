@@ -1,59 +1,36 @@
-﻿@model IEnumerable<GreaterSydneyLibraries.Models.Customers>
-
+﻿@model GreaterSydneyLibraries.Models.Customer.CustomerIndexModel
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Customer Details</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateOfBirth)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ContactNo)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateOfBirth)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ContactNo)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div id="patronIndex">
+    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp customTable" id="patronIndexTable">
+        <thead>
+            <tr>
+               @* <th>Profile Link</th>*@
+                <th>Last Name</th>
+                <th>First Name</th>
+                <th>Library Card Id</th>
+                <th>Overdue Fees</th>
+                <th>Home Library</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var patron in Model.CustomerViewModels)
+            {
+                <tr>
+                   @* <td id="patronIcon"><a asp-controller="Patron" asp-action="Detail" asp-route-id="@patron.Id"><i class="fa fa-user fa-2x"></i></a></td>*@
+                    <td>@patron.LastName</td>
+                    <td>@patron.FirstName</td>
+                    <td>@patron.LibraryCardId</td>
+                    <td>@patron.OverdueFees</td>
+                    <td>@patron.LocalBranch</td>
+                    <td> <a class="btn btn-primary" type="submit" asp-controller="Customers"  asp-action="Detail" asp-route-id="@patron.Id">Detail</a></td>
+                </tr> 
+            }
+        </tbody>
+    </table>
+</div>

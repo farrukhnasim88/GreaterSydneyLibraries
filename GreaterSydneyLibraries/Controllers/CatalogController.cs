@@ -69,7 +69,7 @@ namespace GreaterSydneyLibraries.Controllers
                 Status = asset.Status.Name,
                 ImageUrl = asset.ImageUrl,
                 AuthorOrDirector = _assets.GetAuthorOrDirector(id),
-                CurrentLocation = _assets.GetCurrentLocation(id).Name,
+                CurrentLocation = _assets.GetCurrentLocation(id).Name,  //navigation property
                 DeweyCallNumber = _assets.GetDeweyIndex(id),
                 ISBN = _assets.GetIsbn(id),
                 CheckoutHistories = _checkouts.GetCheckoutHistory(id),

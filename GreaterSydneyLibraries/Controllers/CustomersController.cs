@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GreaterSydneyLibraries.Models;
 using LibraryData;
+using GreaterSydneyLibraries.Models.Customer;
 
 namespace GreaterSydneyLibraries.Controllers
 {
@@ -27,12 +28,53 @@ namespace GreaterSydneyLibraries.Controllers
 
 
 
-        public async Task<IActionResult> Index()
+        public  IActionResult Index()
         {
-            
-                                           
-            return View();
+            var customers = _customer.GetAll();
+            var customerModels = customers.Select(c => new CustomerViewModel
+            {
+                Id = c.Id,
+                FirstName= c.FirstName,
+                LastName= c.LastName,
+                LibraryCardId= c.LibraryCard.Id, // navigation property
+                OverdueFees= c.LibraryCard.Fees, 
+                LocalBranch= c.LocalBranch.Name  // navigation prop
+                                                          
+            }).ToList();
+
+            var model = new CustomerIndexModel()
+            {
+                CustomerViewModels = customerModels
+            };
+                                                       
+            return View(model);
         }
+
+
+        public IActionResult Detail(int id)
+        {
+            var patron = _customer.Get(id);
+
+            var model = new CustomerDetailViewModel
+            {
+                Id = patron.Id,
+                LastName = patron.LastName ?? "No Last Name Provided",
+                FirstName = patron.FirstName ?? "No First Name Provided",
+                Address = patron.Address ?? "No Address Provided",
+                HomeLibrary = patron.LocalBranch?.Name ?? "No Home Library",
+                MemberSince = patron.LibraryCard?.Created,
+                OverdueFees = patron.LibraryCard?.Fees,
+                LibraryCardId = patron.LibraryCard?.Id,
+                Telephone = string.IsNullOrEmpty(patron.ContactNo) ? "No Telephone Number Provided" : patron.ContactNo,
+                AssetsCheckedOut = _customer.GetCheckouts(id).ToList(),
+                CheckoutHistory = _customer.GetCheckoutHistory(id),
+                Holds = _customer.GetHolds(id)
+            };
+
+            return View(model);
+        }
+
+
 
 
         // GET: Customers Alternate Way
@@ -42,7 +84,7 @@ namespace GreaterSydneyLibraries.Controllers
         }
 
         // GET: Customers/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details1(int? id)
         {
             if (id == null)
             {
